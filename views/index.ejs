@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" href="../layui-src/src/css/layui.css">
+		<script src="../layui-src/src/layui.js"></script>
+		<script src="../javascripts/all.js"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">
+					后台布局
+				</div>
+				
+				
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="/item/out/exitSession">退出</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="../query_all.html">所有商品</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">出入库管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="../operation/output">出库</a></dd>
+								<dd><a href="../operation/input">入库</a></dd>
+							</dl>
+						  </li>
+						<li class="layui-nav-item"><a href="../query_operation.html">流水记录</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">
+					<form class='layui-form' action="" method="">
+						
+						<div class="layui-form-item">
+							<label class="layui-form-label">id</label>
+							<div class="layui-input-block">
+								<input class="layui-input" type="text" name="item_id" value="<%= id%>" readonly="readonly"/>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">名称</label>
+							<div class="layui-input-block">
+								<input class="layui-input" type="text" name="item_name" value="<%= 名称%>" readonly="readonly"/>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">类型</label>
+							<div class="layui-input-block">
+								<input class="layui-input" type="text" name="item_type" value="<%= 类型%>" readonly="readonly"/>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">数量</label>
+							<div class="layui-input-block">
+								<input class="layui-input" type="text" name="item_num" value="<%= 数量%>" readonly="readonly"/>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">所在仓库</label>
+							<div class="layui-input-block">
+								<input class="layui-input" type="text" name="item_ware" value="<%= 所在仓库%>" readonly="readonly"/>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">最后操作的时间</label>
+							<div class="layui-input-block">
+								<input class="layui-input" type="text" name="item_last_time" value="<%= 最后操作时间%>"readonly="readonly"/>
+							</div>
+						</div>
+						
+					</from>
+				</div>
+			</div>
+			
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+		</div>
+		
+		
+		
+		
+	</body>
+</html>

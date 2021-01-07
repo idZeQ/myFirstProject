@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>登录</title>
+		<link rel="stylesheet" href="../stylesheets/all.css">
+	</head>
+	<body>
+		<div class='mainbody mainbody-register'>
+			<form class='my-form' action="/register" method="POST">
+				<div class="form-group">
+					<p>邮箱：</p>
+					<input class="form-control" type="email" name="mail" placeholder="邮箱" required="required"/>
+				</div>
+				<div class="form-group">
+					<p>用户名：</p>
+					<input class="form-control" type="text" name="username" placeholder="用户名" required="required"/>
+				</div>
+				<div class="form-group">
+					<p>密码：</p>
+					<input class="form-control" type="password" name="password" placeholder="密码" required="required"/>
+				</div>
+				<div class="form-group">
+					<p>再次输入密码：</p>
+					<input class="form-control" type="password" name="repassword" placeholder="再次输入密码" required="required"/>
+				</div>
+			​
+				<p class="text">
+					<a href="/">登录</a>
+				</p>
+				<button id="registerBtn" disabled="disable" style="cursor: not-allowed;" class="btn btn-lg">注册</button>
+			</form>
+		</div>
+	</body>
+</html>
+<script>
+var formDiv = document.querySelector('form');
+var inputs =  document.querySelectorAll('form input');
+var btn = document.querySelector('#registerBtn');
+formDiv.oninput = function(){
+	//判断是否有内容为空
+	isAble = true;
+	inputs.forEach((item,i)=>{
+		if(item.value==""){
+			isAble = false;
+		}
+	})
+	//正则匹配邮箱地址
+	let reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+	//密码与再次输入的密码是否匹配
+	if(inputs[2].value==inputs[3].value&&isAble&&reg.test(inputs[0].value)){
+		btn.disabled = false;
+		btn.style.cursor = 'pointer'
+	}else{
+		btn.disabled = true;
+		btn.style.cursor = 'not-allow'
+	}
+}
+</script>

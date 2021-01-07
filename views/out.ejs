@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title><%= title%>表单</title>
+		<link rel="stylesheet" href="../layui-src/src/css/layui.css">
+		<script src="../axios/dist/axios.min.js"></script>
+		<script src="../javascripts/jQuery.min.js"></script>
+		<script src="../layui-src/src/layui.js"></script>
+		
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">
+					后台布局
+				</div>
+				
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item"><a href="/item/out/exitSession">退出</a></li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+						<li class="layui-nav-item">
+							<a class="" href="../query_all.html">所有商品</a>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="">出库</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="/operation/input">入库</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="../query_operation.html">流水记录</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">
+		<form class='layui-form' action="/operation/out" method="POST" onsubmit='return verify()'>
+			<div class="layui-form-item">
+						    <label class="layui-form-label">操作类型</label>
+						    <div class="layui-input-block">
+				<input class="layui-input" type="text" name="opt_type" value="<%= title%>" required="required" readonly="readonly"/>
+			</div>
+			</div>
+		    <div class="layui-form-item">
+						    <label class="layui-form-label">操作时间</label>
+						    <div class="layui-input-block">
+		        <input id='now_data' class="layui-input" type="text" name="opt_time" required="required" readonly/>
+		    </div>
+			</div>
+		    <div class="layui-form-item">
+						    <label class="layui-form-label">物品名称</label>
+						    <div class="layui-input-block">
+				<select lay-filter="search_type" id="select_dataSourceList" name="issued_sub_key_c" class="layui-input required" onchange='set_max()'></select>
+		    </div>
+			</div>
+			<div class="layui-form-item">
+						    <label class="layui-form-label">操作数量</label>
+						    <div class="layui-input-block">
+			    <input id='hiddenSourceId' class="layui-input" type="number" name="opt_num" min="1" required="required" readonly='readonly'/>
+			</div>
+			</div>
+		    <div class="layui-form-item">
+						    <label class="layui-form-label">操作用户</label>
+						    <div class="layui-input-block">
+		        <input class="layui-input" type="text" name="username" value="<%= username%>" readonly="readonly"/>
+		    </div>
+			</div>
+		    <div class="layui-form-item">
+		        <div class="layui-input-block">
+		    		<button id="opt_btn" type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+		        </div>
+		    </div>
+		</form>
+		</div>
+			</div>
+			
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+		</div>
+		
+		<script>
+			
+			let list_obj = []
+			
+			$(document).ready(function() {
+				$.ajax({
+					method:"get",
+					url:"/operation/get_item",
+					dataType : "json",
+					success:function(list){
+						list_obj = list
+						console.log(list[0].名称)
+						$("#select_dataSourceList").append(`<option value='0'>请选择物品</option>`)
+						for(var i=0;i < list.length;i++){
+									$("#select_dataSourceList").append(`<option value=${list[i].名称}>${list[i].名称}</option>`);
+							}
+						}
+				});
+			});
+			
+			function verify(){
+				if($("#select_dataSourceList").val() == 0){
+					alert('请选择物品名')
+					return false
+				}
+				return true
+			}
+			
+			//全局变量
+			
+			var format = "";
+			
+			//构造符合datetime-local格式的当前日期
+			function getFormat(){
+				format = "";
+				var nTime = new Date();
+				format += nTime.getFullYear()+"-";
+				format += (nTime.getMonth()+1)<10?"0"+(nTime.getMonth()+1):(nTime.getMonth()+1);
+				format += "-";
+				format += nTime.getDate()<10?"0"+(nTime.getDate()):(nTime.getDate());
+				format += " ";
+				format += nTime.getHours()<10?"0"+(nTime.getHours()):(nTime.getHours());
+				format += ":";
+				format += nTime.getMinutes()<10?"0"+(nTime.getMinutes()):(nTime.getMinutes());
+				format += ":00";
+				console.log('-----')
+			}
+			
+			getFormat()
+			
+			$("#now_data").val(format);//赋初始值
+			console.log(format)
+			
+			
+			$("#now_data").val(format);//赋初始值
+			console.log(format)
+			
+			layui.use(['form', 'layedit', 'laydate'], function(){
+				var form = layui.form
+			
+				form.on('select(search_type)', function(data){
+					let slted_i = $('option:selected', '#select_dataSourceList').index()
+					let num_lit = list_obj[slted_i-1].数量
+					console.log(num_lit)
+					$('#hiddenSourceId').attr('max',`${num_lit}`).removeAttr('readonly')
+				})
+			})
+			
+			
+		</script>
+		
+	</body>
+</html>
