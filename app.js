@@ -4,18 +4,20 @@ let ejs = require('ejs')
 let path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+const cors = require('cors') 
 //引入session模块
 let session = require('express-session');
 
 // var sessionRouter = require('./router/sessionModule.js')
 
-let app = express()
+const app = express()
 
 let itemRouter = require('./routes/itemRouter.js')
 let loginRouter = require('./routes/loginRouter.js')
 let registerRouter = require('./routes/registerRouter.js')
 let operationRouter = require('./routes/operationRouter.js')
 
+app.use(cors())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
